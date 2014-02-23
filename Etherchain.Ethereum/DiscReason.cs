@@ -31,7 +31,7 @@ namespace Etherchain.Ethereum
 
         public static string GetDiscReason(uint discReason)
         {
-            if (DiscReasonToString.Length - 1 < discReason)
+            if (discReason >= DiscReasonToString.Length)
             {
                 return "Unknown";
             }

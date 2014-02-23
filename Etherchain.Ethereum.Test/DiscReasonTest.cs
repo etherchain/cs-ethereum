@@ -5,7 +5,7 @@ using Etherchain.Ethereum;
 namespace Etherchain.Ethereum.Test
 {
     [TestClass]
-    public class PeerTest
+    public class DiscReasonTest
     {
         [TestMethod]
         public void TestGetDiscReason()
