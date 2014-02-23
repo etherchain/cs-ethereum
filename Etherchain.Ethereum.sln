@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etherchain.Ethereum", "Etherchain.Ethereum\Etherchain.Ethereum.csproj", "{F3A3E82E-0148-46CF-A7B1-0661C95AD657}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etherchain.Ethereum.Test", "Etherchain.Ethereum.Test\Etherchain.Ethereum.Test.csproj", "{D1DEF511-2E33-47E9-A49F-E059840040C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{F3A3E82E-0148-46CF-A7B1-0661C95AD657}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3A3E82E-0148-46CF-A7B1-0661C95AD657}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3A3E82E-0148-46CF-A7B1-0661C95AD657}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1DEF511-2E33-47E9-A49F-E059840040C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1DEF511-2E33-47E9-A49F-E059840040C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1DEF511-2E33-47E9-A49F-E059840040C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1DEF511-2E33-47E9-A49F-E059840040C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

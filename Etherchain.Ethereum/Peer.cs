@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Etherchain.Ethereum.Wire
+namespace Etherchain.Ethereum
 {
+    public class Peer
+    {
+        private const int OutputBufferSize = 50;
+    }
 }
