@@ -8,14 +8,14 @@ namespace Etherchain.Ethereum
 {
     public static class DiscReason
     {
-        private const string DiscReRequested = "0x00";
-        private const string DiscReTcpSysErr = "0x01";
-        private const string DiscBadProto = "0x02";
-        private const string DiscBadPeer = "0x03";
-        private const string DiscTooManyPeers = "0x04";
-        private const string DiscConnDup = "0x05";
-        private const string DiscGenesisErr = "0x06";
-        private const string DiscProtoErr = "0x07";
+        private const int DiscReRequested = 0x00;
+        private const int DiscReTcpSysErr = 0x01;
+        private const int DiscBadProto = 0x02;
+        private const int DiscBadPeer = 0x03;
+        private const int DiscTooManyPeers = 0x04;
+        private const int DiscConnDup = 0x05;
+        private const int DiscGenesisErr = 0x06;
+        private const int DiscProtoErr = 0x07;
 
         private static string[] DiscReasonToString = 
         {

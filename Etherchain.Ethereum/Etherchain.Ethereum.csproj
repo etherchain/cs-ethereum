@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,20 +41,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caps.cs" />
-    <Compile Include="Chain\Block.cs" />
-    <Compile Include="Chain\BlockChain.cs" />
-    <Compile Include="Chain\BlockManager.cs" />
-    <Compile Include="Chain\BlockManagerTest.cs" />
-    <Compile Include="Chain\Contract.cs" />
-    <Compile Include="Chain\Dagger.cs" />
-    <Compile Include="Chain\DaggerTest.cs" />
-    <Compile Include="Chain\Error.cs" />
-    <Compile Include="Chain\Fees.cs" />
-    <Compile Include="Chain\Genesis.cs" />
-    <Compile Include="Chain\Stack.cs" />
-    <Compile Include="Chain\Transaction.cs" />
-    <Compile Include="Chain\TransactionPool.cs" />
-    <Compile Include="Chain\TransactionTest.cs" />
+    <Compile Include="Core\Address.cs" />
+    <Compile Include="Core\Block.cs" />
+    <Compile Include="Core\BlockChain.cs" />
+    <Compile Include="Core\BlockManager.cs" />
+    <Compile Include="Core\BlockManagerTest.cs" />
+    <Compile Include="Core\Contract.cs" />
+    <Compile Include="Core\Dagger.cs" />
+    <Compile Include="Core\DaggerTest.cs" />
+    <Compile Include="Core\Error.cs" />
+    <Compile Include="Core\Fees.cs" />
+    <Compile Include="Core\Genesis.cs" />
+    <Compile Include="Core\Stack.cs" />
+    <Compile Include="Core\Transaction.cs" />
+    <Compile Include="Core\TransactionPool.cs" />
+    <Compile Include="Core\TransactionTest.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Database\DatabaseTest.cs" />
     <Compile Include="DiscReason.cs" />
@@ -63,17 +65,16 @@
     <Compile Include="Utilities\Bytes.cs" />
     <Compile Include="Utilities\Config.cs" />
     <Compile Include="Utilities\Database.cs" />
-    <Compile Include="Utilities\Encoding.cs" />
-    <Compile Include="Utilities\EncodingTest.cs" />
     <Compile Include="Utilities\Helpers.cs" />
     <Compile Include="Utilities\Parsing.cs" />
     <Compile Include="Utilities\ParsingTest.cs" />
     <Compile Include="Utilities\Random.cs" />
-    <Compile Include="Utilities\Rlp.cs" />
+    <Compile Include="Utilities\RLPEncoder.cs" />
     <Compile Include="Utilities\RlpTest.cs" />
     <Compile Include="Utilities\Trie.cs" />
     <Compile Include="Utilities\TrieTest.cs" />
     <Compile Include="Utilities\Value.cs" />
+    <Compile Include="Wire\MessageType.cs" />
     <Compile Include="Wire\NAT.cs" />
     <Compile Include="Wire\NATPMP.cs" />
     <Compile Include="Wire\NATUPnP.cs" />
