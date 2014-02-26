@@ -16,10 +16,11 @@ namespace Etherchain.Ethereum.Test.Utilities
         [TestMethod]
         public void TestEncodeSingleString()
         {
-            Assert.AreEqual(RLPEncoder.Encode("dog")[0], 131);
-            Assert.AreEqual(RLPEncoder.Encode("dog")[1], Convert.ToByte('d'));
-            Assert.AreEqual(RLPEncoder.Encode("dog")[2], Convert.ToByte('o'));
-            Assert.AreEqual(RLPEncoder.Encode("dog")[3], Convert.ToByte('g'));
+            byte[] result = RLPEncoder.Encode("dog");
+            Assert.AreEqual(result[0], 131);
+            Assert.AreEqual(result[1], Convert.ToByte('d'));
+            Assert.AreEqual(result[2], Convert.ToByte('o'));
+            Assert.AreEqual(result[3], Convert.ToByte('g'));
         }
 
         [TestMethod]
