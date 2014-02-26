@@ -8,7 +8,7 @@ namespace Etherchain.Ethereum.Wire
 {
     class MessageType
     {
-        private const byte[] MagicToken = { 34, 64, 8, 145 };
+        private readonly byte[] MagicToken = { 34, 64, 8, 145 };
         
         public Dictionary<string, string> MessageTypeToString = new Dictionary<string, string>
         {

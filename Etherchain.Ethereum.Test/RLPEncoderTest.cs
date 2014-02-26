@@ -5,18 +5,27 @@ using Etherchain.Ethereum.Utilities;
 namespace Etherchain.Ethereum.Test.Utilities
 {
     [TestClass]
-    class RLPEncoderTest
+    public class RLPEncoderTest
     {
+        [TestMethod]
+        public void TestEncodeSingleLetter()
+        {
+            Assert.AreEqual(RLPEncoder.Encode("a")[0], 0x3D);
+        }
+        
         [TestMethod]
         public void TestEncodeSingleString()
         {
-            Assert.AreEqual(RLPEncoder.Encode("dog"), new object[] { 0x83, 'd', 'o', 'g' });
+            Assert.AreEqual(RLPEncoder.Encode("dog")[0], 131);
+            Assert.AreEqual(RLPEncoder.Encode("dog")[1], Convert.ToByte('d'));
+            Assert.AreEqual(RLPEncoder.Encode("dog")[2], Convert.ToByte('o'));
+            Assert.AreEqual(RLPEncoder.Encode("dog")[3], Convert.ToByte('g'));
         }
 
         [TestMethod]
         public void TestEncodeEmptyString()
         {
-            Assert.AreEqual(RLPEncoder.Encode(""), new object[] { 0x80 });
+            Assert.AreEqual(RLPEncoder.Encode("")[0], 0x80);
         }
 
         [TestMethod]
