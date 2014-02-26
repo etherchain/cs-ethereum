@@ -10,7 +10,16 @@ namespace Etherchain.Ethereum.Test.Utilities
         [TestMethod]
         public void TestEncodeSingleLetter()
         {
-            Assert.AreEqual(RLPEncoder.Encode("a")[0], 0x3D);
+            Assert.AreEqual(RLPEncoder.Encode(" ")[0], 32);
+            Assert.AreEqual(RLPEncoder.Encode("!")[0], 33);
+            Assert.AreEqual(RLPEncoder.Encode("$")[0], 36);
+            Assert.AreEqual(RLPEncoder.Encode("%")[0], 37);
+            Assert.AreEqual(RLPEncoder.Encode("&")[0], 38);
+            Assert.AreEqual(RLPEncoder.Encode("0")[0], 48);
+            Assert.AreEqual(RLPEncoder.Encode("9")[0], 57);
+            Assert.AreEqual(RLPEncoder.Encode("A")[0], 65);
+            Assert.AreEqual(RLPEncoder.Encode("_")[0], 95);
+            Assert.AreEqual(RLPEncoder.Encode("a")[0], 97);
         }
         
         [TestMethod]
@@ -38,13 +47,15 @@ namespace Etherchain.Ethereum.Test.Utilities
         [TestMethod]
         public void TestEncodeLowInteger()
         {
-            Assert.AreEqual(RLPEncoder.Encode(15), new object[] { 0x0f });
+            Assert.AreEqual(RLPEncoder.Encode(15)[0], 15);
         }
 
         [TestMethod]
         public void TestEncodeHighInteger()
         {
-            Assert.AreEqual(RLPEncoder.Encode(1024), new object[] { 0x82, 0x04, 0x00 });
+            Assert.AreEqual(RLPEncoder.Encode(1024)[0], 130);
+            Assert.AreEqual(RLPEncoder.Encode(1024)[1], 4);
+            Assert.AreEqual(RLPEncoder.Encode(1024)[2], 0);
         }
 
         [TestMethod]
