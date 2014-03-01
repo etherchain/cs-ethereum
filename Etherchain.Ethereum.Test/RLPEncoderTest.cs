@@ -79,6 +79,15 @@ namespace Etherchain.Ethereum.Test.Utilities
         }
 
         [TestMethod]
+        public void TestEncodeBigInteger()
+        {
+            UInt64 Test = 18446744073709551615;
+            string Expected = "88ffffffffffffffff";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
+        }
+
+        [TestMethod]
         public void TestEncodeLongString()
         {
             string Test = "Lorem ipsum dolor sit amet, consectetur adipisicing elit";
@@ -139,6 +148,26 @@ namespace Etherchain.Ethereum.Test.Utilities
             string Expected = "c7c0c1c0c3c0c1c0";
             string Result = RLPEncoder.Encode(Test).ToHex();
             Assert.AreEqual(Result, Expected);
+        }
+
+        [TestMethod]
+        public void TestEncodeLengthLowerThan56() 
+        {
+            int Length = 1;
+            int Offset = 128;
+            byte[] Expected = new byte[] { (byte)0x81 }; 
+            byte[] EncodedLength = RLPEncoder.EncodeLength(Length, Offset);
+            Assert.AreEqual(Expected.ToHex(), EncodedLength.ToHex());
+        }
+
+        [TestMethod]
+        public void TestEncodeLengthHigherThan55()
+        {
+            int Length = 56;
+            int Offset = 192;
+            byte[] Expected = new byte[] { 0xf8, 0x38 };
+            byte[] EncodedLength = RLPEncoder.EncodeLength(Length, Offset);
+            Assert.AreEqual(Expected.ToHex(), EncodedLength.ToHex());
         }
     }
 }
