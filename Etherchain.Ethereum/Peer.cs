@@ -9,7 +9,7 @@ namespace Etherchain.Ethereum
 {
     public class Peer
     {
-        private const int OutputBufferSize = 50;
+        /*private const int OutputBufferSize = 50;
         private WebClient Connection;
         // outputQueue chan *ethwire.Msg
         private bool Inbound;
@@ -33,6 +33,6 @@ namespace Etherchain.Ethereum
             this.Connected = 1;
             this.Port = 30303;
             // this.PubKey = pubkey;
-        }
+        }*/
     }
 }

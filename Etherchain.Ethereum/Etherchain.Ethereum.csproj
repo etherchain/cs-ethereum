@@ -67,12 +67,9 @@
     <Compile Include="Utilities\Database.cs" />
     <Compile Include="Utilities\Helpers.cs" />
     <Compile Include="Utilities\Parsing.cs" />
-    <Compile Include="Utilities\ParsingTest.cs" />
     <Compile Include="Utilities\Random.cs" />
     <Compile Include="Utilities\RLPEncoder.cs" />
-    <Compile Include="Utilities\RlpTest.cs" />
     <Compile Include="Utilities\Trie.cs" />
-    <Compile Include="Utilities\TrieTest.cs" />
     <Compile Include="Utilities\Value.cs" />
     <Compile Include="Wire\MessageType.cs" />
     <Compile Include="Wire\NAT.cs" />

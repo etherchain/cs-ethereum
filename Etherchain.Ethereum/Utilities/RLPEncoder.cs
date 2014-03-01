@@ -9,90 +9,108 @@ namespace Etherchain.Ethereum.Utilities
 {
     public static class RLPEncoder
     {
-        private static int RlpEmptyList = 0x80;
-        private static int RlpEmptyStr = 0x40;
-
-        private static int DirectRlp = 0x7f;
-        private static int NumberRlp = 0xb7;
-        private static int ZeroRlp = 0x0;
-
-        public static int Character(byte[] character)
-        {
-            if (character.Length > 0)
-            {
-                return (int)character[0];
-            }
-            return 0;
-        }
-
-        public static Object decodeWithReader(BufferedStream reader) 
+        private static readonly UInt64 MaxItemLength = UInt64.MaxValue;
+        private static readonly int SizeThreshold = 56;
+        private static readonly int OffsetShortItem = 0x80;
+        private static readonly int OffsetShortList = 0xc0;
+        
+        public static Object DecodeWithReader(BufferedStream reader) 
         {
             return null;
         }
         
-        public static Object decode(byte[] data, long pos) 
+        public static Object Decode(byte[] data, long pos) 
         {
 		    return null;
         }
 
-        public static byte[] Encode(object objectToEncode)
+        public static byte[] Encode(Object input)
         {
-            if (objectToEncode is string)
+            if (input is Array)
             {
-                string objectAsString = objectToEncode.ToString();
-
-                if (String.IsNullOrEmpty(objectAsString))
+                Object[] inputArray = (Object[])input;
+                if (inputArray.Length == 0)
                 {
-                    return new byte[] { 0x80 };
+                    return EncodeLength(inputArray.Length, OffsetShortList);
                 }
-
-                if (objectAsString.Length == 1)
+                byte[] output = new byte[0];
+                foreach (Object arrayObject in inputArray)
                 {
-                    byte[] encodedObject = Encoding.ASCII.GetBytes(objectAsString.ToCharArray());
-                    if (encodedObject[0] < 128)
-                    {
-                        return new byte[] { encodedObject[0] };
-                    }
+                    output = ConcatenateByteArrays(output, Encode(arrayObject));
+                }
+                byte[] prefix = EncodeLength(output.Length, OffsetShortList);
+                return ConcatenateByteArrays(prefix, output);
+            }
+            else
+            {
+                if (input == null)
+                {
+                    throw new ArgumentNullException("The input is null");
+                }
+                byte[] inputAsHex = ToHex(input);
+                if (inputAsHex.Length == 1)
+                {
+                    return inputAsHex;
                 }
                 else
                 {
-                    byte[] returnArray = new byte[objectAsString.Length + 1];
-                    returnArray[0] = EncodeLength(objectAsString.Length, 128);
-                    byte[] arrayAsBytes = Encoding.ASCII.GetBytes(objectAsString.ToCharArray());
-                    Array.Copy(arrayAsBytes, 0, returnArray, 1, objectAsString.Length);
-                    return returnArray;
+                    byte[] firstByte = EncodeLength(inputAsHex.Length, OffsetShortItem);
+                    return ConcatenateByteArrays(firstByte, inputAsHex);
                 }
             }
-            if (objectToEncode is int)
-            {
-                if ((int)objectToEncode < 56)
-                {
-                    return new byte[] { Convert.ToByte(objectToEncode) };
-                }
-                else if ((int)objectToEncode < Math.Pow(256, 8))
-                {
-
-                }
-            }
-            return null;
         }
 
-        public static object[] Encode(object[] objectToEncode)
+        public static byte[] EncodeLength(int length, int offset)
         {
-            if (objectToEncode.ToString().Length == 1 && File.ReadAllBytes(objectToEncode.ToString())[0] < 128)
+            if (length < SizeThreshold)
             {
-                return objectToEncode;
+                byte firstByte = (byte)(length + offset);
+                return new byte[] { firstByte };
             }
-		    return null;
+            else if ((UInt64)length < MaxItemLength)
+            {
+                byte[] binaryLength = ConvertUInt64ToByteArray((UInt64)length);
+                byte firstByte = (byte)(binaryLength.Length + offset + SizeThreshold - 1);
+                return ConcatenateByteArrays(new byte[] { firstByte }, binaryLength);
+            }
+            throw new Exception("Input too long");
         }
 
-        private static byte EncodeLength(int length, int offset)
-        {
-            if (length < 56)
+        private static byte[] ToHex(Object input) {
+            UInt64 inputInt;
+            bool isNum = UInt64.TryParse(input.ToString(), out inputInt);
+            if (input is string) 
             {
-                return (byte)(length + offset) ;
+                string inputString = (string) input;
+                return Encoding.ASCII.GetBytes(inputString.ToCharArray());
             }
-            return 0;
+            else if (isNum) 
+            {
+                return (inputInt == 0) ? new byte[0] : ConvertUInt64ToByteArray(inputInt);
+            }
+            throw new Exception("Unsupported type: Only accepting String, Integer and BigInteger for now");
+        }
+
+        private static byte[] ConcatenateByteArrays(byte[] inputArrayOne, byte[] inputArrayTwo)
+        {
+            byte[] result = new byte[inputArrayOne.Length + inputArrayTwo.Length];
+            Array.Copy(inputArrayOne, 0, result, 0, inputArrayOne.Length);
+            Array.Copy(inputArrayTwo, 0, result, inputArrayOne.Length, inputArrayTwo.Length);
+            return result;
+        }
+
+        private static byte[] ConvertUInt64ToByteArray(UInt64 input)
+        {
+            byte[] uInt64AsByteArray = BitConverter.GetBytes(input);
+            Array.Reverse(uInt64AsByteArray);
+            var i = 0;
+            while (uInt64AsByteArray[i] == 0)
+            {
+                ++i;
+            }
+            byte[] result = new byte[uInt64AsByteArray.Length - i];
+            Array.Copy(uInt64AsByteArray, i, result, 0, uInt64AsByteArray.Length - i);
+            return result;
         }
     }
 }

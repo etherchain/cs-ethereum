@@ -8,6 +8,13 @@ namespace Etherchain.Ethereum.Test.Utilities
     public class RLPEncoderTest
     {
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "The input is null")]
+        public void TestEncodeNull()
+        {
+            byte[] result = RLPEncoder.Encode(null);
+        }
+        
+        [TestMethod]
         public void TestEncodeSingleLetter()
         {
             Assert.AreEqual(RLPEncoder.Encode(" ")[0], 32);
@@ -41,7 +48,13 @@ namespace Etherchain.Ethereum.Test.Utilities
         [TestMethod]
         public void TestEncodeArrayOfEmptyStrings()
         {
-            Assert.AreEqual(RLPEncoder.Encode(new string[] { }), new object[] { 0xc0 });
+            Assert.AreEqual(RLPEncoder.Encode(new string[] { })[0], 0xc0);
+        }
+
+        [TestMethod]
+        public void TestEncodeZero()
+        {
+            Assert.AreEqual(RLPEncoder.Encode(0)[0], 0x80);
         }
 
         [TestMethod]
@@ -51,7 +64,7 @@ namespace Etherchain.Ethereum.Test.Utilities
         }
 
         [TestMethod]
-        public void TestEncodeHighInteger()
+        public void TestEncodeMediumInteger()
         {
             Assert.AreEqual(RLPEncoder.Encode(1024)[0], 130);
             Assert.AreEqual(RLPEncoder.Encode(1024)[1], 4);
@@ -61,7 +74,14 @@ namespace Etherchain.Ethereum.Test.Utilities
         [TestMethod]
         public void TestEncodeLongString()
         {
-            Assert.AreEqual(RLPEncoder.Encode("Lorem ipsum dolor sit amet, consectetur adipisicing elit"), new object[] { 0xb8, 0x38, 'L', 'o', 'r', 'e', 'm', ' ', 'i', 'p', 's', 'u', 'm', ' ', 'd', 'o', 'l', 'o', 'r', ' ', 's', 'i', 't', ' ', 'a', 'm', 'e', 't', ',', ' ', 'c', 'o', 'n', 's', 'e', 'c', 't', 'e', 't', 'u', 'r', ' ', 'a', 'd', 'i', 'p', 'i', 's', 'i', 'c', 'i', 'n', 'g', ' ', 'e', 'l', 'i', 't' });
+            byte[] result = RLPEncoder.Encode("Lorem ipsum dolor sit amet, consectetur adipisicing elit");
+            Assert.AreEqual(result[0], 0xb8);
+            Assert.AreEqual(result[1], 0x38);
+            Assert.AreEqual(result[2], Convert.ToByte('L'));
+            Assert.AreEqual(result[3], Convert.ToByte('o'));
+            Assert.AreEqual(result[4], Convert.ToByte('r'));
+            Assert.AreEqual(result[5], Convert.ToByte('e'));
+            Assert.AreEqual(result[6], Convert.ToByte('m'));
         }
     }
 }
