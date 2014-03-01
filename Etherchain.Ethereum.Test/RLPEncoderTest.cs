@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Etherchain.Ethereum.Utilities;
+using System.Text;
 
 namespace Etherchain.Ethereum.Test.Utilities
 {
@@ -13,75 +14,131 @@ namespace Etherchain.Ethereum.Test.Utilities
         {
             byte[] result = RLPEncoder.Encode(null);
         }
-        
+
         [TestMethod]
-        public void TestEncodeSingleLetter()
+        public void TestEncodeSingleCharacter()
         {
-            Assert.AreEqual(RLPEncoder.Encode(" ")[0], 32);
-            Assert.AreEqual(RLPEncoder.Encode("!")[0], 33);
-            Assert.AreEqual(RLPEncoder.Encode("$")[0], 36);
-            Assert.AreEqual(RLPEncoder.Encode("%")[0], 37);
-            Assert.AreEqual(RLPEncoder.Encode("&")[0], 38);
-            Assert.AreEqual(RLPEncoder.Encode("0")[0], 48);
-            Assert.AreEqual(RLPEncoder.Encode("9")[0], 57);
-            Assert.AreEqual(RLPEncoder.Encode("A")[0], 65);
-            Assert.AreEqual(RLPEncoder.Encode("_")[0], 95);
-            Assert.AreEqual(RLPEncoder.Encode("a")[0], 97);
+            string Test = "d";
+            string Expected = "64";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
         }
-        
+
         [TestMethod]
         public void TestEncodeSingleString()
         {
-            byte[] result = RLPEncoder.Encode("dog");
-            Assert.AreEqual(result[0], 131);
-            Assert.AreEqual(result[1], Convert.ToByte('d'));
-            Assert.AreEqual(result[2], Convert.ToByte('o'));
-            Assert.AreEqual(result[3], Convert.ToByte('g'));
+            string Test = "dog";
+            string Expected = "83646f67";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
         }
 
         [TestMethod]
         public void TestEncodeEmptyString()
         {
-            Assert.AreEqual(RLPEncoder.Encode("")[0], 0x80);
+            string Test = "";
+            string Expected = "80";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
         }
 
         [TestMethod]
         public void TestEncodeArrayOfEmptyStrings()
         {
-            Assert.AreEqual(RLPEncoder.Encode(new string[] { })[0], 0xc0);
+            string[] Test = new string[] { };
+            string Expected = "c0";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
         }
 
         [TestMethod]
         public void TestEncodeZero()
         {
-            Assert.AreEqual(RLPEncoder.Encode(0)[0], 0x80);
+            int Test = 0;
+            string Expected = "80";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
         }
 
         [TestMethod]
         public void TestEncodeLowInteger()
         {
-            Assert.AreEqual(RLPEncoder.Encode(15)[0], 15);
+            int Test = 15;
+            string Expected = "0f";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
         }
 
         [TestMethod]
         public void TestEncodeMediumInteger()
         {
-            Assert.AreEqual(RLPEncoder.Encode(1024)[0], 130);
-            Assert.AreEqual(RLPEncoder.Encode(1024)[1], 4);
-            Assert.AreEqual(RLPEncoder.Encode(1024)[2], 0);
+            int Test = 1024;
+            string Expected = "820400";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
         }
 
         [TestMethod]
         public void TestEncodeLongString()
         {
-            byte[] result = RLPEncoder.Encode("Lorem ipsum dolor sit amet, consectetur adipisicing elit");
-            Assert.AreEqual(result[0], 0xb8);
-            Assert.AreEqual(result[1], 0x38);
-            Assert.AreEqual(result[2], Convert.ToByte('L'));
-            Assert.AreEqual(result[3], Convert.ToByte('o'));
-            Assert.AreEqual(result[4], Convert.ToByte('r'));
-            Assert.AreEqual(result[5], Convert.ToByte('e'));
-            Assert.AreEqual(result[6], Convert.ToByte('m'));
+            string Test = "Lorem ipsum dolor sit amet, consectetur adipisicing elit";
+            string Expected = "b8384c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e7365637465747572206164697069736963696e6720656c6974";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
+        }
+
+        [TestMethod]
+        public void TestEncodeEmptyStringList()
+        {
+            string[] Test = new string[0];
+            string Expected = "c0";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
+        }
+
+        [TestMethod]
+        public void TestEncodeShortStringList()
+        {
+            string[] Test = new string[] { "dog", "god", "cat" };
+            string Expected = "cc83646f6783676f6483636174";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
+        }
+
+        [TestMethod]
+        public void TestEncodeLongStringList()
+        {
+            string[] Test = new string[] { "cat", "Lorem ipsum dolor sit amet, consectetur adipisicing elit" };
+            string Expected = "f83e83636174b8384c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e7365637465747572206164697069736963696e6720656c6974";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
+        }
+
+        [TestMethod]
+        public void TestEncodeMultiList()
+        {
+            Object[] Test = new Object[] { 1, new Object[] { "cat" }, "dog", new Object[] { 2 } };
+            string Expected = "cc01c48363617483646f67c102";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
+        }
+
+        [TestMethod]
+        public void TestEncodeListOfEmptyLists()
+        {
+            Object[] Test = new Object[] { new Object[] { new Object[] { }, new Object[] { } }, new Object[] { } };
+            string Expected = "c4c2c0c0c0";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
+        }
+        
+        [TestMethod]
+        public void TestEncodeTwoListsOfEmptyLists()
+        {
+            Object[] Test = new Object[] { new Object[] { }, new Object[] { new Object[] { } }, new Object[] { new Object[] { }, new Object[] { new Object[] { } } } };
+            string Expected = "c7c0c1c0c3c0c1c0";
+            string Result = RLPEncoder.Encode(Test).ToHex();
+            Assert.AreEqual(Result, Expected);
         }
     }
 }
