@@ -54,6 +54,7 @@
     <Compile Include="HexConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RLPEncoderTest.cs" />
+    <Compile Include="RLPDecoderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etherchain.Ethereum\Etherchain.Ethereum.csproj">

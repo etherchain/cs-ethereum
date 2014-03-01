@@ -14,16 +14,6 @@ namespace Etherchain.Ethereum.Utilities
         private static readonly int OffsetShortItem = 0x80;
         private static readonly int OffsetShortList = 0xc0;
         
-        public static Object DecodeWithReader(BufferedStream reader) 
-        {
-            return null;
-        }
-        
-        public static Object Decode(byte[] data, long pos) 
-        {
-		    return null;
-        }
-
         public static byte[] Encode(Object input)
         {
             if (input is Array)

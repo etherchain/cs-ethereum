@@ -68,6 +68,7 @@
     <Compile Include="Utilities\Helpers.cs" />
     <Compile Include="Utilities\Parsing.cs" />
     <Compile Include="Utilities\Random.cs" />
+    <Compile Include="Utilities\RLPDecoder.cs" />
     <Compile Include="Utilities\RLPEncoder.cs" />
     <Compile Include="Utilities\Trie.cs" />
     <Compile Include="Utilities\Value.cs" />
