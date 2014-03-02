@@ -44,7 +44,8 @@ namespace Etherchain.Ethereum.Utilities
 
             if (input[0] <= 0xff)
             {
-                return null; // todo
+                byte[] list = RemoveFirstXBytes(input, 2);
+                return SplitListIntoMultipleByteArrays(list);
             }
             return null;
         }
@@ -56,26 +57,42 @@ namespace Etherchain.Ethereum.Utilities
             return result;
         }
 
-        private static byte[,] SplitListIntoMultipleByteArrays(byte[] inputArray)
+        private static byte[][] SplitListIntoMultipleByteArrays(byte[] inputArray)
         {
             List<byte[]> byteArrayList = new List<byte[]>();
-            int counter = 1;
+            int counter = 0;
             foreach (byte value in inputArray)
             {
                 if ((int)value > 127)
                 {
-                    int stringLength = value - 128;
+                    int stringLength = value - 127;
                     if (stringLength > 0)
                     {
-                        byte[] tempArray = new byte[stringLength];
-                        Array.Copy(inputArray, counter, tempArray, 0, stringLength);
-                        counter += stringLength;
-                        byteArrayList.Add(tempArray);
+                        if ((int)value > 183)
+                        {
+                            stringLength += value - 183;
+                            // todo: return empty lists
+                            //if ((int)value > 191)
+                            //{
+                            //    stringLength = value - 191;
+                            //}
+                            byte[] tempArray = new byte[stringLength];
+                            Array.Copy(inputArray, counter, tempArray, 0, stringLength);
+                            counter += stringLength;
+                            byteArrayList.Add((byte[])Decode(tempArray));
+                        }
+                        else
+                        {
+                            byte[] tempArray = new byte[stringLength];
+                            Array.Copy(inputArray, counter, tempArray, 0, stringLength);
+                            counter += stringLength;
+                            byteArrayList.Add((byte[])Decode(tempArray));
+                        }
                     }
-
                 }
             }
-            return CreateRectangularArray(byteArrayList);
+            byte[][] result = byteArrayList.ToArray();
+            return result;
         }
 
         // Code from: http://stackoverflow.com/questions/321370/convert-hex-string-to-byte-array
@@ -98,27 +115,6 @@ namespace Etherchain.Ethereum.Utilities
         {
             int val = (int)hex;
             return val - (val < 58 ? 48 : 87);
-        }
-
-        // Code from: http://stackoverflow.com/questions/9774901/how-to-convert-list-of-arrays-into-a-2d-array
-        private static T[,] CreateRectangularArray<T>(IList<T[]> arrays)
-        {
-            int minorLength = arrays[0].Length;
-            T[,] ret = new T[arrays.Count, minorLength];
-            for (int i = 0; i < arrays.Count; i++)
-            {
-                var array = arrays[i];
-                if (array.Length != minorLength)
-                {
-                    throw new ArgumentException
-                        ("All arrays must be the same length");
-                }
-                for (int j = 0; j < minorLength; j++)
-                {
-                    ret[i, j] = array[j];
-                }
-            }
-            return ret;
         }
     }
 }

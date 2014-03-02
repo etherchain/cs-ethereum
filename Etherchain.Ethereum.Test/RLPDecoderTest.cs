@@ -108,17 +108,11 @@ namespace Etherchain.Ethereum.Test
         public void TestDecodeShortStringList()
         {
             string Test = "cc83646f6783676f6483636174";
-            byte[,] Expected = new byte[,] { { 100, 111, 103 }, { 131, 103, 111 }, { 100, 131, 99 } };
-            byte[,] Result = (byte[,])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test));
-            Assert.AreEqual(Expected[0, 0], Result[0, 0]);
-            Assert.AreEqual(Expected[0, 1], Result[0, 1]);
-            Assert.AreEqual(Expected[0, 2], Result[0, 2]);
-            Assert.AreEqual(Expected[1, 0], Result[1, 0]);
-            Assert.AreEqual(Expected[1, 1], Result[1, 1]);
-            Assert.AreEqual(Expected[1, 2], Result[1, 2]);
-            Assert.AreEqual(Expected[2, 0], Result[2, 0]);
-            Assert.AreEqual(Expected[2, 1], Result[2, 1]);
-            Assert.AreEqual(Expected[2, 2], Result[2, 2]);
+            string[] Expected = new string[] { "dog", "god", "cat" };
+            byte[][] Result = (byte[][])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test));
+            Assert.AreEqual(Expected[0], Encoding.ASCII.GetString(Result[0]));
+            Assert.AreEqual(Expected[1], Encoding.ASCII.GetString(Result[1]));
+            Assert.AreEqual(Expected[2], Encoding.ASCII.GetString(Result[2]));
         }
 
         [TestMethod]
@@ -126,8 +120,9 @@ namespace Etherchain.Ethereum.Test
         {
             string Test = "f83e83636174b8384c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e7365637465747572206164697069736963696e6720656c6974";
             string[] Expected = new string[] { "cat", "Lorem ipsum dolor sit amet, consectetur adipisicing elit" };
-            Object Result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            byte[][] Result = (byte[][])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test));
+            Assert.AreEqual(Expected[0], Encoding.ASCII.GetString(Result[0]));
+            Assert.AreEqual(Expected[1], Encoding.ASCII.GetString(Result[1]));
         }
 
         [TestMethod]
