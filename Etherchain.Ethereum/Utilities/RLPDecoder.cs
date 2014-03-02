@@ -14,31 +14,37 @@ namespace Etherchain.Ethereum.Utilities
             return null;
         }
 
-        public static Object Decode(string input)
+        public static Object Decode(byte[] input)
         {
-            if (input.Length > 1)
+            if (input[0] < 0x7f)
             {
-                byte[] inputAsArray = StringToByteArray(input);
-                if (inputAsArray[0] < 0x7f)
-                {
-                    return Encoding.ASCII.GetString(inputAsArray);
-                }
-                else if (inputAsArray[0] >= 0x80 && inputAsArray[0] <= 0xb7)
-                {
-                    return Encoding.ASCII.GetString(RemoveFirstXBytes(inputAsArray, 1));
-                }
-                else if (inputAsArray[0] >= 0xb8 && inputAsArray[0] <= 0xbf)
-                {
+                return input;
+            }
 
-                }
-                else if (inputAsArray[0] >= 0xc0 && inputAsArray[0] <= 0xf7)
-                {
+            if (input[0] <= 0xb7)
+            {
+                return RemoveFirstXBytes(input, 1);
+            }
 
-                }
-                else if (inputAsArray[0] >= 0xf8 && inputAsArray[0] <= 0xff)
-                {
+            if (input[0] <= 0xbf)
+            {
+                int firstByte = (int)input[0];
+                return RemoveFirstXBytes(input, firstByte - 182);
+            }
 
+            if (input[0] <= 0xf7)
+            {
+                if (input[0] == 0xc0)
+                {
+                    return new string[] { };
                 }
+                byte[] list = RemoveFirstXBytes(input, 1);
+                return SplitListIntoMultipleByteArrays(list);
+            }
+
+            if (input[0] <= 0xff)
+            {
+                return null; // todo
             }
             return null;
         }
@@ -46,12 +52,34 @@ namespace Etherchain.Ethereum.Utilities
         private static byte[] RemoveFirstXBytes(byte[] inputArray, int amount)
         {
             byte[] result = new byte[inputArray.Length - amount];
-            Array.Copy(inputArray, amount, result, 0, inputArray.Length - 1);
+            Array.Copy(inputArray, amount, result, 0, inputArray.Length - amount);
             return result;
         }
 
-        // Code from http://stackoverflow.com/questions/321370/convert-hex-string-to-byte-array
-        private static byte[] StringToByteArray(string hex)
+        private static byte[,] SplitListIntoMultipleByteArrays(byte[] inputArray)
+        {
+            List<byte[]> byteArrayList = new List<byte[]>();
+            int counter = 1;
+            foreach (byte value in inputArray)
+            {
+                if ((int)value > 127)
+                {
+                    int stringLength = value - 128;
+                    if (stringLength > 0)
+                    {
+                        byte[] tempArray = new byte[stringLength];
+                        Array.Copy(inputArray, counter, tempArray, 0, stringLength);
+                        counter += stringLength;
+                        byteArrayList.Add(tempArray);
+                    }
+
+                }
+            }
+            return CreateRectangularArray(byteArrayList);
+        }
+
+        // Code from: http://stackoverflow.com/questions/321370/convert-hex-string-to-byte-array
+        public static byte[] StringToByteArray(string hex)
         {
             if (hex.Length % 2 == 1)
                 throw new Exception("The binary key cannot have an odd number of digits");
@@ -70,6 +98,27 @@ namespace Etherchain.Ethereum.Utilities
         {
             int val = (int)hex;
             return val - (val < 58 ? 48 : 87);
+        }
+
+        // Code from: http://stackoverflow.com/questions/9774901/how-to-convert-list-of-arrays-into-a-2d-array
+        private static T[,] CreateRectangularArray<T>(IList<T[]> arrays)
+        {
+            int minorLength = arrays[0].Length;
+            T[,] ret = new T[arrays.Count, minorLength];
+            for (int i = 0; i < arrays.Count; i++)
+            {
+                var array = arrays[i];
+                if (array.Length != minorLength)
+                {
+                    throw new ArgumentException
+                        ("All arrays must be the same length");
+                }
+                for (int j = 0; j < minorLength; j++)
+                {
+                    ret[i, j] = array[j];
+                }
+            }
+            return ret;
         }
     }
 }

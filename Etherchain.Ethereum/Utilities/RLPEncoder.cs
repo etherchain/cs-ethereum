@@ -69,14 +69,14 @@ namespace Etherchain.Ethereum.Utilities
         private static byte[] ToHex(Object input) {
             UInt64 inputInt;
             bool isNum = UInt64.TryParse(input.ToString(), out inputInt);
-            if (input is string) 
+            if (isNum) 
+            {
+                return (inputInt == 0) ? new byte[0] : ConvertUInt64ToByteArray(inputInt);
+            }
+            else if (input is string) 
             {
                 string inputString = (string) input;
                 return Encoding.ASCII.GetBytes(inputString.ToCharArray());
-            }
-            else if (isNum) 
-            {
-                return (inputInt == 0) ? new byte[0] : ConvertUInt64ToByteArray(inputInt);
             }
             throw new Exception("Unsupported type: Only accepting String, Integer and BigInteger for now");
         }

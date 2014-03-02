@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace Etherchain.Ethereum.Test
 {
-    public static class HexConverter
+    public static class Converter
     {
+        public static UInt64 ConvertByteArrayToUInt64(byte[] input)
+        {
+            if (input.Length < 8)
+            {
+                byte[] tempArray = new byte[8];
+                Array.Copy(input, 0, tempArray, (tempArray.Length - input.Length), input.Length);
+                Array.Reverse(tempArray);
+                return BitConverter.ToUInt64(tempArray, 0);
+            }
+            return BitConverter.ToUInt64(input, 0);
+        }
+        
         /// Code from http://blogs.msdn.com/b/blambert/archive/2009/02/22/blambert-codesnip-fast-byte-array-to-hex-string-conversion.aspx
         
         private static readonly string[] HexStringTable = new string[]
