@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Etherchain.Ethereum.Chain
+namespace Ethereum.Chain
 {
     class BlockManager
     {

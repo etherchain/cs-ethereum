@@ -57,9 +57,9 @@
     <Compile Include="RLPDecoderTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Etherchain.Ethereum\Etherchain.Ethereum.csproj">
+    <ProjectReference Include="..\Etherchain.Ethereum\Ethereum.csproj">
       <Project>{f3a3e82e-0148-46cf-a7b1-0661c95ad657}</Project>
-      <Name>Etherchain.Ethereum</Name>
+      <Name>Ethereum</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

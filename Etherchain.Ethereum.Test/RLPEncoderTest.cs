@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Etherchain.Ethereum.Utilities;
+using Ethereum.Utilities;
 using System.Text;
 
-namespace Etherchain.Ethereum.Test.Utilities
+namespace Ethereum.Test.Utilities
 {
     [TestClass]
     public class RLPEncoderTest

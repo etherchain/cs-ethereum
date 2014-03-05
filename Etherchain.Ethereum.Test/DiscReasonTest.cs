@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Etherchain.Ethereum;
+using Ethereum;
 
-namespace Etherchain.Ethereum.Test
+namespace Ethereum.Test
 {
     [TestClass]
     public class DiscReasonTest

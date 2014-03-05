@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 
-namespace Etherchain.Ethereum.Core
+namespace Ethereum.Core
 {
     class Address
     {

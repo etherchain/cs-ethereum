@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Etherchain.Ethereum")]
+[assembly: AssemblyTitle("Ethereum")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Unattended")]
-[assembly: AssemblyProduct("Etherchain.Ethereum")]
-[assembly: AssemblyCopyright("Copyright © Unattended 2014")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("Ethereum")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

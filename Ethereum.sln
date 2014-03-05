@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etherchain.Ethereum", "Etherchain.Ethereum\Etherchain.Ethereum.csproj", "{F3A3E82E-0148-46CF-A7B1-0661C95AD657}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ethereum", "Etherchain.Ethereum\Ethereum.csproj", "{F3A3E82E-0148-46CF-A7B1-0661C95AD657}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etherchain.Ethereum.Test", "Etherchain.Ethereum.Test\Etherchain.Ethereum.Test.csproj", "{D1DEF511-2E33-47E9-A49F-E059840040C6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ethereum.Test", "Etherchain.Ethereum.Test\Ethereum.Test.csproj", "{D1DEF511-2E33-47E9-A49F-E059840040C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

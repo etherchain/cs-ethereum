@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Etherchain.Ethereum.Test
+namespace Ethereum.Test
 {
     public static class Converter
     {
