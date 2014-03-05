@@ -6,8 +6,8 @@
     <ProjectGuid>{D1DEF511-2E33-47E9-A49F-E059840040C6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Etherchain.Ethereum.Test</RootNamespace>
-    <AssemblyName>Etherchain.Ethereum.Test</AssemblyName>
+    <RootNamespace>Ethereum.Test</RootNamespace>
+    <AssemblyName>Ethereum.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -57,7 +57,7 @@
     <Compile Include="RLPDecoderTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Etherchain.Ethereum\Ethereum.csproj">
+    <ProjectReference Include="..\Ethereum\Ethereum.csproj">
       <Project>{f3a3e82e-0148-46cf-a7b1-0661c95ad657}</Project>
       <Name>Ethereum</Name>
     </ProjectReference>
