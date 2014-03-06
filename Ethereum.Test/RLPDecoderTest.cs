@@ -11,145 +11,146 @@ namespace Ethereum.Test
         [TestMethod]
         public void TestDecodeSingleCharacter()
         {
-            string Test = "64";
-            string Expected = "d";
-            Object Result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "64";
+            string expected = "d";
+            Object result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void TestDecodeSingleString()
         {
-            string Test = "83646f67";
-            string Expected = "dog";
-            Object Result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "83646f67";
+            string expected = "dog";
+            Object result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void TestDecodeEmptyString()
         {
-            string Test = "80";
-            string Expected = "";
-            Object Result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "80";
+            string expected = "";
+            Object result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void TestDecodeArrayOfEmptyStrings()
         {
-            string Test = "c0";
-            string[] Expected = new string[] { };
-            bool ExpectedBool = (Expected == null || Expected.Length == 0);
-            Object Result = RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test));
-            string[] ResultAsString = (string[])Result;
-            bool ResultBool = (ResultAsString == null || ResultAsString.Length == 0);
-            Assert.AreEqual(ExpectedBool, ResultBool);
+            string test = "c0";
+            string[] expected = new string[] { };
+            bool expectedBool = (expected == null || expected.Length == 0);
+            Object[] result = (Object[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded();
+            bool resultBool = result.ContainsOnlyEmpty();
+            Assert.AreEqual(expectedBool, resultBool);
         }
 
         [TestMethod]
         public void TestDecodeZero()
         {
-            string Test = "80";
-            UInt64 Expected = 0;
-            Object Result = Converter.ConvertByteArrayToUInt64((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "80";
+            UInt64 expected = 0;
+            Object result = Converter.ConvertByteArrayToUInt64((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void TestDecodeLowInteger()
         {
-            string Test = "0f";
-            UInt64 Expected = 15;
-            Object Result = Converter.ConvertByteArrayToUInt64((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "0f";
+            UInt64 expected = 15;
+            Object result = Converter.ConvertByteArrayToUInt64((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void TestDecodeMediumInteger()
         {
-            string Test = "820400";
-            UInt64 Expected = 1024;
-            Object Result = Converter.ConvertByteArrayToUInt64((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "820400";
+            UInt64 expected = 1024;
+            Object result = Converter.ConvertByteArrayToUInt64((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void TestDecodeBigInteger()
         {
-            string Test = "88ffffffffffffffff";
-            UInt64 Expected = 18446744073709551615;
-            Object Result = Converter.ConvertByteArrayToUInt64((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "88ffffffffffffffff";
+            UInt64 expected = 18446744073709551615;
+            Object result = Converter.ConvertByteArrayToUInt64((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void TestDecodeLongString()
         {
-            string Test = "b8384c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e7365637465747572206164697069736963696e6720656c6974";
-            string Expected = "Lorem ipsum dolor sit amet, consectetur adipisicing elit";
-            Object Result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "b8384c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e7365637465747572206164697069736963696e6720656c6974";
+            string expected = "Lorem ipsum dolor sit amet, consectetur adipisicing elit";
+            Object result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded());
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
         public void TestDecodeEmptyStringList()
         {
-            string Test = "c0";
-            string[] Expected = new string[0];
-            bool ExpectedBool = (Expected == null || Expected.Length == 0);
-            Object Result = RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test));
-            string[] ResultAsString = (string[])Result;
-            bool ResultBool = (ResultAsString == null || ResultAsString.Length == 0);
-            Assert.AreEqual(ExpectedBool, ResultBool);
+            string test = "c0";
+            string[] expected = new string[0];
+            bool expectedBool = (expected == null || expected.Length == 0);
+            Object[] result = (Object[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded();
+            bool resultBool = result.ContainsOnlyEmpty();
+            Assert.AreEqual(expectedBool, resultBool);
         }
 
         [TestMethod]
         public void TestDecodeShortStringList()
         {
-            string Test = "cc83646f6783676f6483636174";
-            string[] Expected = new string[] { "dog", "god", "cat" };
-            byte[][] Result = (byte[][])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test));
-            Assert.AreEqual(Expected[0], Encoding.ASCII.GetString(Result[0]));
-            Assert.AreEqual(Expected[1], Encoding.ASCII.GetString(Result[1]));
-            Assert.AreEqual(Expected[2], Encoding.ASCII.GetString(Result[2]));
+            string test = "cc83646f6783676f6483636174";
+            string[] expected = new string[] { "dog", "god", "cat" };
+            Object[] result = (Object[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded();
+            Assert.AreEqual(expected[0], Encoding.ASCII.GetString((byte[])result[0]));
+            Assert.AreEqual(expected[1], Encoding.ASCII.GetString((byte[])result[1]));
+            Assert.AreEqual(expected[2], Encoding.ASCII.GetString((byte[])result[2]));
         }
 
         [TestMethod]
         public void TestDecodeLongStringList() // fails
         {
-            string Test = "f83e83636174b8384c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e7365637465747572206164697069736963696e6720656c6974";
-            string[] Expected = new string[] { "cat", "Lorem ipsum dolor sit amet, consectetur adipisicing elit" };
-            byte[][] Result = (byte[][])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test));
-            Assert.AreEqual(Expected[0], Encoding.ASCII.GetString(Result[0]));
-            Assert.AreEqual(Expected[1], Encoding.ASCII.GetString(Result[1]));
+            string test = "f83e83636174b8384c6f72656d20697073756d20646f6c6f722073697420616d65742c20636f6e7365637465747572206164697069736963696e6720656c6974";
+            string[] expected = new string[] { "cat", "Lorem ipsum dolor sit amet, consectetur adipisicing elit" };
+            Object[] result = (Object[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded();
+            Assert.AreEqual(expected[0], Encoding.ASCII.GetString((byte[])result[0]));
+            Assert.AreEqual(expected[1], Encoding.ASCII.GetString((byte[])result[1]));
         }
 
         [TestMethod]
         public void TestDecodeMultiList() // fails
         {
-            string Test = "cc01c48363617483646f67c102";
-            Object[] Expected = new Object[] { 1, new Object[] { "cat" }, "dog", new Object[] { 2 } };
-            Object Result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "cc01c48363617483646f67c102";
+            Object[] expected = new Object[] { (UInt64)1, new Object[] { "cat" }, "dog", new Object[] { (UInt64)2 } };
+            Object[] result = (Object[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded();
+            Assert.AreEqual(expected[0], Converter.ConvertByteArrayToUInt64((byte[])result[0]));
+            Assert.AreEqual(expected[1].ToString(), result[1].ToString());
+            Assert.AreEqual(expected[2], Encoding.ASCII.GetString((byte[])result[2]));
+            Assert.AreEqual(((Object[])expected[3])[0], Converter.ConvertByteArrayToUInt64((byte[])((Object[])result[3])[0]));
         }
 
         [TestMethod]
         public void TestDecodeListOfEmptyLists() // fails
         {
-            string Test = "c4c2c0c0c0";
-            Object[] Expected = new Object[] { new Object[] { new Object[] { }, new Object[] { } }, new Object[] { } };
-            Object Result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "c4c2c0c0c0";
+            Object[] expected = new Object[] { new Object[] { new Object[] { }, new Object[] { } }, new Object[] { } };
+            Object[] result = (Object[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded();
+            Assert.AreEqual(expected.ContainsOnlyEmpty(), result.ContainsOnlyEmpty());
         }
 
         [TestMethod]
         public void TestDecodeTwoListsOfEmptyLists() // fails
         {
-            string Test = "c7c0c1c0c3c0c1c0";
-            Object[] Expected = new Object[] { new Object[] { }, new Object[] { new Object[] { } }, new Object[] { new Object[] { }, new Object[] { new Object[] { } } } };
-            Object Result = Encoding.ASCII.GetString((byte[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(Test)));
-            Assert.AreEqual(Expected, Result);
+            string test = "c7c0c1c0c3c0c1c0";
+            Object[] expected = new Object[] { new Object[] { }, new Object[] { new Object[] { } }, new Object[] { new Object[] { }, new Object[] { new Object[] { } } } };
+            Object[] result = (Object[])RLPDecoder.Decode(RLPDecoder.StringToByteArray(test), UInt64.MinValue).GetDecoded();
+            Assert.AreEqual(expected.ContainsOnlyEmpty(), result.ContainsOnlyEmpty());
         }
     }
 }
