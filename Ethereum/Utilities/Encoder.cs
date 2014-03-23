@@ -53,5 +53,19 @@ namespace Ethereum.Utilities
             result[result.Length - 1] = inputByte;
             return result;
         }
+
+        public static byte[] RemoveLastXBytes(byte[] inputArray, int amountOfBytes)
+        {
+            byte[] result = new byte[inputArray.Length - amountOfBytes];
+            Array.Copy(inputArray, 0, result, 0, inputArray.Length - amountOfBytes);
+            return result;
+        }
+
+        public static byte[] RemoveFirstXBytes(byte[] inputArray, int amountOfBytes)
+        {
+            byte[] result = new byte[inputArray.Length - amountOfBytes];
+            Array.Copy(inputArray, amountOfBytes, result, 0, inputArray.Length - amountOfBytes);
+            return result;
+        }
     }
 }

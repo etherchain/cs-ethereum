@@ -46,32 +46,31 @@ namespace Ethereum.Utilities
                 }
             }
             return buffer.toString();
-        }
+        }*/
 
-        public static int[] compactDecode(String str)
+        public static byte[] CompactDecode(byte[] str)
         {
-            int[] Base = compactHexDecode(str);
-            Base = Arrays.copyOf(Base, Base.Length - 1);
-            if (Base[0] >= 2)
+            byte[] result = CompactHexDecode(str);
+            result = Encoder.RemoveLastXBytes(result, 1);
+            if (result[0] >= 2)
             {
-                Base = concatenate(Base, TERMINATOR);
+                result = Encoder.AppendByteToArray(result, TERMINATOR);
             }
-            if (Base[0] % 2 == 1)
+            if (result[0] % 2 == 1)
             {
-                Base = Arrays.copyOfRange(Base, 1, Base.Length);
+                result = Encoder.RemoveFirstXBytes(result, 1);
             }
             else
             {
-                Base = Arrays.copyOfRange(Base, 2, Base.Length);
+                result = Encoder.RemoveFirstXBytes(result, 2);
             }
-            return Base;
-        }*/
+            return result;
+        }
 
-        public static byte[] CompactHexDecode(string str) 
+        public static byte[] CompactHexDecode(byte[] hexEncoded) 
         {
             char[] charArray = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
             byte[] hexSlice = new byte[0];
-            byte[] hexEncoded = Encoder.ToHex(str);
  		    foreach (byte number in hexEncoded) 
             {
                 string hexValue = number.ToHex();
@@ -82,46 +81,5 @@ namespace Ethereum.Utilities
             hexSlice = Encoder.AppendByteToArray(hexSlice, TERMINATOR);
  		    return hexSlice;
         }
-
-        /**
-         * Cast hex encoded value from byte[] to int
-         * 
-         * Limited to Integer.MAX_VALUE: 2^32-1
-         * 
-         * @param b array contains the hex values
-         * @return int value of all hex values together. 
-         */
-        /*public static int toInt(byte[] b)
-        {
-            if (b == null || b.Length == 0)
-            {
-                return 0;
-            }
-            return new BigInteger(b).intValue();
-        }
-
-        public static byte[] concatenate(byte[] a, byte[] b)
-        {
-            byte[] c = new byte[a.Length + b.Length];
-            System.arraycopy(a, 0, c, 0, a.Length);
-            System.arraycopy(b, 0, c, a.Length, b.Length);
-            return c;
-        }
-
-        public static int[] concatenate(int[] a, int[] b)
-        {
-            int[] c = new int[a.Length + b.Length];
-            System.arraycopy(a, 0, c, 0, a.Length);
-            System.arraycopy(b, 0, c, a.Length, b.Length);
-            return c;
-        }
-
-        public static int[] concatenate(int[] a, int b)
-        {
-            int[] c = new int[a.Length + 1];
-            System.arraycopy(a, 0, c, 0, a.Length);
-            c[c.Length] = b;
-            return c;
-        }*/
     }
 }
