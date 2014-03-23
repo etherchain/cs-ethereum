@@ -11,6 +11,42 @@ namespace Ethereum.Test
         private readonly static byte T = 16; // terminator
 
         [TestMethod]
+        public void TestCompactEncodeOne()
+        {
+            byte[] test = new byte[] {  1, 2, 3, 4, 5 };
+            byte[] expected = new byte[] { 0x11, 0x23, 0x45 };
+            byte[] result = CompactEncoder.CompactEncode(test);
+            Assert.AreEqual(Encoding.ASCII.GetString(result), Encoding.ASCII.GetString(expected));
+        }
+
+        [TestMethod]
+        public void TestCompactEncodeTwo()
+        {
+            byte[] test = new byte[] { 0, 1, 2, 3, 4, 5 };
+            byte[] expected = new byte[] { 0x00, 0x01, 0x23, 0x45 };
+            byte[] result = CompactEncoder.CompactEncode(test);
+            Assert.AreEqual(Encoding.ASCII.GetString(result), Encoding.ASCII.GetString(expected));
+        }
+
+        [TestMethod]
+        public void TestCompactEncodeThree()
+        {
+            byte[] test = new byte[] { 0, 15, 1, 12, 11, 8, T };
+            byte[] expected = new byte[]  { 0x20, 0x0f, 0x1c, 0xb8 };
+            byte[] result = CompactEncoder.CompactEncode(test);
+            Assert.AreEqual(Encoding.ASCII.GetString(result), Encoding.ASCII.GetString(expected));
+        }
+
+        [TestMethod]
+        public void TestCompactEncodeFour()
+        {
+            byte[] test = new byte[] { 15, 1, 12, 11, 8, T };
+            byte[] expected = new byte[] { 0x3f, 0x1c, 0xb8 };
+            byte[] result = CompactEncoder.CompactEncode(test);
+            Assert.AreEqual(Encoding.ASCII.GetString(result), Encoding.ASCII.GetString(expected));
+        }
+
+        [TestMethod]
         public void TestCompactHexDecode()
         {
             byte[] test = Encoding.ASCII.GetBytes("verb");

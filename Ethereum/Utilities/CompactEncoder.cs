@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Ethereum.Utilities
 {
@@ -10,43 +11,36 @@ namespace Ethereum.Utilities
     {
         private static byte TERMINATOR = 16;
 
-        /*public static string CompactEncode(byte[] key)
+        public static byte[] CompactEncode(byte[] hexSlice)
         {
-            bool keyHasTerminator;
+            byte terminator = 0;
 
-            if (key[key.Length - 1] == TERMINATOR)
+            if (hexSlice[hexSlice.Length - 1] == TERMINATOR)
             {
-                keyHasTerminator = true;
-                key = key.Slice(0, BitConverter.ToUInt64(BitConverter.GetBytes(key.LongLength), 0) - 1);
+                terminator = 1;
+                hexSlice = Encoder.RemoveLastXBytes(hexSlice, 1);
             }
 
-            UInt64 oddlen = BitConverter.ToUInt64(BitConverter.GetBytes(key.LongLength), 0) % 2;
-            int flag = 2 * keyHasTerminator + oddlen;
+            int oddlen = hexSlice.Length % 2;
+            int flag = 2 * terminator + oddlen;
             if (oddlen != 0)
             {
-                int[] flags = new int[] { flag };
-                key = concatenate(flags, key);
+                byte[] flags = new byte[] { (byte)flag };
+                hexSlice = Encoder.ConcatenateByteArrays(flags, hexSlice);
             }
             else
             {
-                int[] flags = new int[] { flag, 0 };
-                key = concatenate(flags, key);
+                byte[] flags = new byte[] { (byte)flag, 0 };
+                hexSlice = Encoder.ConcatenateByteArrays(flags, hexSlice);
             }
 
-            OutputStream buffer = new ByteArrayOutputStream();
-            for (int i = 0; i < key.Length; i += 2)
+            MemoryStream buffer = new MemoryStream();
+            for (int i = 0; i < hexSlice.Length; i += 2)
             {
-                try
-                {
-                    buffer.write((16 * key[i] + key[i + 1]));
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
+                buffer.WriteByte((byte)(16 * hexSlice[i] + hexSlice[i + 1]));
             }
-            return buffer.toString();
-        }*/
+            return buffer.ToArray();
+        }
 
         public static byte[] CompactDecode(byte[] str)
         {
